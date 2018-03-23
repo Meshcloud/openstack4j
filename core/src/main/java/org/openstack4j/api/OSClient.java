@@ -294,15 +294,35 @@ public interface OSClient< T extends OSClient<T>> {
      * OpenStack4j Client which authenticates against version V3
      */
     public interface OSClientV3 extends OSClient<OSClient.OSClientV3> {
-        
-        
         /**
          * Gets the token that was assigned during authorization
          *
          * @return the authentication token
          */
         Token getToken();
-         
+
+        /**
+         * Returns the Identity Service API V3
+         *
+         * @return the identity service version 3
+         */
+        org.openstack4j.api.identity.v3.IdentityService identity();
+
+    }
+
+    /**
+     * OpenStack4j Client which authenticates against version V3
+     */
+    public interface OSClientV3Federation extends OSClient<OSClient.OSClientV3> {
+
+
+        /**
+         * Gets the token that was assigned during authorization
+         *
+         * @return the authentication token
+         */
+        Token getToken();
+
         /**
          * Returns the Identity Service API V3
          *

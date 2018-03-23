@@ -1,12 +1,14 @@
 package org.openstack4j.api.networking;
 
-import java.util.List;
-
 import org.openstack4j.common.RestService;
 import org.openstack4j.model.common.ActionResponse;
 import org.openstack4j.model.network.AttachInterfaceType;
 import org.openstack4j.model.network.Router;
 import org.openstack4j.model.network.RouterInterface;
+import org.openstack4j.model.network.SecurityGroup;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides Neutron Router based Service Operations
@@ -22,7 +24,15 @@ public interface RouterService extends RestService {
 	 * @return List of Routers or empty list
 	 */
 	List<? extends Router> list();
-	
+
+	/**
+	 * Get list of routers accessible by the current tenant
+	 * @param filteringParams map (name, value) of filtering parameters
+	 *
+	 * @return the list<? extends router>
+	 */
+	List<? extends Router> list(Map<String, String> filteringParams);
+
 	/**
 	 * Gets a Router by ID
 	 * 

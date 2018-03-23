@@ -1,10 +1,5 @@
 package org.openstack4j.openstack.networking.internal;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
-import java.util.List;
-
 import org.openstack4j.api.networking.RouterService;
 import org.openstack4j.core.transport.ExecutionOptions;
 import org.openstack4j.core.transport.propagation.PropagateOnStatus;
@@ -18,6 +13,12 @@ import org.openstack4j.openstack.networking.domain.AddRouterInterfaceAction;
 import org.openstack4j.openstack.networking.domain.NeutronRouter;
 import org.openstack4j.openstack.networking.domain.NeutronRouter.Routers;
 import org.openstack4j.openstack.networking.domain.NeutronRouterInterface;
+
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * RouterService implementation that provides Neutron Router based Service Operations.
@@ -34,6 +35,19 @@ public class RouterServiceImpl extends BaseNetworkingServices implements RouterS
 		return get(Routers.class, uri("/routers")).execute().getList();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<? extends Router> list(Map<String, String> filteringParams) {
+		Invocation<Routers> routerInvocation = get(Routers.class, "/routers");
+		if (filteringParams != null) {
+			for (Map.Entry<String, String> entry : filteringParams.entrySet()) {
+				routerInvocation = routerInvocation.param(entry.getKey(), entry.getValue());
+			}
+		}
+		return routerInvocation.execute().getList();
+	}
 	/**
 	 * {@inheritDoc}
 	 */

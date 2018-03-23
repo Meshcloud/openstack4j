@@ -17,6 +17,13 @@ public interface NetQuota extends ModelEntity, Buildable<NetQuotaBuilder> {
      * @return number of subnets
      */
     int getSubnet();
+
+    /**
+     * Number of subnet pools allowed per tenant
+     *
+     * @return number of subnet pools
+     */
+    int getSubnetpool();
     
     /**
      * Number of routers allowed per tenant
@@ -59,4 +66,50 @@ public interface NetQuota extends ModelEntity, Buildable<NetQuotaBuilder> {
      * @return number of security groups rules
      */
     int getSecurityGroupRule();
+
+    /**
+     * IMPORTANT! This property is only available when the LBaaS extension is active
+     *
+     * Number of LBaaS L7 policies per tenant
+     *
+     * @return number of LBaaS L7 policies
+     */
+    Integer getL7policy();
+
+    /**
+     * IMPORTANT! This property is only available when the LBaaS extension is active
+     *
+     * Number of LBaaS listeners per tenant
+     *
+     * @return number of LBaaS listeners
+     */
+    Integer getListener();
+
+    /**
+     * IMPORTANT! This property is only available when the LBaaS extension is active
+     *
+     * Number of LBaaS load balancers per tenant
+     *
+     * @return number of LBaaS load balancers
+     */
+    Integer getLoadbalancer();
+
+    /**
+     * IMPORTANT! This property is only available when the LBaaS extension is active
+     *
+     * Number of LBaaS health monitors per tenant
+     *
+     * @return number of LBaaS health monitors
+     */
+    Integer getHealthmonitor();
+
+    /**
+     * IMPORTANT! This property is only available when the LBaaS extension is active
+     *
+     * Number of LBaaS pools per tenant
+     *
+     * @return number of LBaaS pools
+     */
+    Integer getPool();
+
 }

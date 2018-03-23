@@ -169,4 +169,13 @@ public abstract class OSFactory<T extends OSFactory<T>> {
     public static IOSClientBuilder.V3 builderV3() {
         return new OSClientBuilder.ClientV3();
     }
+
+    /**
+     * Creates builder for OpenStack V3 based authentication
+     *
+     * @return V3 Authentication builder
+     */
+    public static IOSClientBuilder.V3Federation builderV3Federation() {
+        return new OSClientBuilder.ClientV3Federation();
+    }
 }

@@ -17,6 +17,14 @@ public interface NetQuotaBuilder extends Builder<NetQuotaBuilder, NetQuota>{
      * @return NetQuotaBuilder
      */
     NetQuotaBuilder subnet(int subnet);
+
+    /**
+     * See {@link NetQuota#getSubnetpool()} for details
+     *
+     * @param subnetpool the max subnet pools allowed
+     * @return NetQuotaBuilder
+     */
+    NetQuotaBuilder subnetpool(int subnetpool);
  
     /**
      * See {@link NetQuota#getRouter()} for details
@@ -66,4 +74,43 @@ public interface NetQuotaBuilder extends Builder<NetQuotaBuilder, NetQuota>{
      */
     NetQuotaBuilder securityGroupRule(int securityGroupRule);
 
+    /**
+     * See {@link NetQuota#getL7policy()} ()} for details
+     *
+     * @param l7policy the max LBaaS L7 policies allowed
+     * @return NetQuotaBuilder
+     */
+    NetQuotaBuilder l7policy(int l7policy);
+
+    /**
+     * See {@link NetQuota#getListener()} ()} for details
+     *
+     * @param listener the max LBaaS listeners allowed
+     * @return NetQuotaBuilder
+     */
+    NetQuotaBuilder listener(int listener);
+
+    /**
+     * See {@link NetQuota#getLoadbalancer()} ()} for details
+     *
+     * @param loadbalancer the max LBaaS load balancers allowed
+     * @return NetQuotaBuilder
+     */
+    NetQuotaBuilder loadbalancer(int loadbalancer);
+
+    /**
+     * See {@link NetQuota#getHealthmonitor()} ()} for details
+     *
+     * @param healthmonitor the max LBaaS health monitors allowed
+     * @return NetQuotaBuilder
+     */
+    NetQuotaBuilder healthmonitor(int healthmonitor);
+
+    /**
+     * See {@link NetQuota#getPool()} ()} for details
+     *
+     * @param pool the max LBaaS pools allowed
+     * @return NetQuotaBuilder
+     */
+    NetQuotaBuilder pool(int pool);
 }

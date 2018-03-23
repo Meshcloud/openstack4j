@@ -17,13 +17,17 @@ import com.google.common.collect.Lists;
 public class BaseTelemetryServices extends BaseOpenStackService {
 
 	protected BaseTelemetryServices() {
-		super(ServiceType.TELEMETRY, EndpointFunction.instance);
+		this(ServiceType.TELEMETRY);
+	}
+
+	protected BaseTelemetryServices(ServiceType service) {
+		super(service, EndpointFunction.instance);
 	}
 	
 	/**
 	 * Sometimes the endpoint does not contain the API version which is required.  This insures that
 	 */
-	private static class EndpointFunction implements Function<String, String> {
+	protected static class EndpointFunction implements Function<String, String> {
 
 		static final EndpointFunction instance = new EndpointFunction();
 		

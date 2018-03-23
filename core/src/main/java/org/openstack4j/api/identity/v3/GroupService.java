@@ -83,6 +83,13 @@ public interface GroupService extends RestService {
     List<? extends Group> list();
 
     /**
+     * lists groups that belong to a given domain.
+     *
+     * @return list of groups of this domain
+     */
+    List<? extends Group> listByDomain(String domainId);
+
+    /**
      * lists the users that belong to a group
      *
      * @return

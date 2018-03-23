@@ -1,20 +1,8 @@
 package org.openstack4j.openstack.identity.v3.internal;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.openstack4j.core.transport.ClientConstants.PATH_DOMAINS;
-import static org.openstack4j.core.transport.ClientConstants.PATH_USERS;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.openstack4j.api.identity.v3.UserService;
 import org.openstack4j.model.common.ActionResponse;
-import org.openstack4j.model.identity.v3.Domain;
-import org.openstack4j.model.identity.v3.Group;
-import org.openstack4j.model.identity.v3.Project;
-import org.openstack4j.model.identity.v3.Role;
-import org.openstack4j.model.identity.v3.User;
+import org.openstack4j.model.identity.v3.*;
 import org.openstack4j.openstack.common.MapEntity;
 import org.openstack4j.openstack.identity.v3.domain.KeystoneDomain;
 import org.openstack4j.openstack.identity.v3.domain.KeystoneGroup.Groups;
@@ -23,6 +11,14 @@ import org.openstack4j.openstack.identity.v3.domain.KeystoneRole.Roles;
 import org.openstack4j.openstack.identity.v3.domain.KeystoneUser;
 import org.openstack4j.openstack.identity.v3.domain.KeystoneUser.Users;
 import org.openstack4j.openstack.internal.BaseOpenStackService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.openstack4j.core.transport.ClientConstants.PATH_DOMAINS;
+import static org.openstack4j.core.transport.ClientConstants.PATH_USERS;
 
 /**
  * implementation of v3 user service
@@ -54,7 +50,7 @@ public class UserServiceImpl extends BaseOpenStackService implements UserService
     @Override
     public User getByName(String userName, String domainId) {
         checkNotNull(userName);
-        checkNotNull(domainId);        
+        checkNotNull(domainId);
         return get(Users.class, uri(PATH_USERS)).param("name", userName).param("domain_id", domainId).execute().first();
     }
 
@@ -136,6 +132,14 @@ public class UserServiceImpl extends BaseOpenStackService implements UserService
      * {@inheritDoc}
      */
     @Override
+    public List<? extends User> listByDomain(String domainId) {
+        return get(Users.class, uri("%s?domain_id=%s", PATH_USERS, domainId)).execute().getList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<? extends Role> listProjectUserRoles(String userId, String projectId) {
         checkNotNull(userId);
         checkNotNull(projectId);
@@ -151,7 +155,7 @@ public class UserServiceImpl extends BaseOpenStackService implements UserService
         checkNotNull(domainId);
         return get(Roles.class, uri("domains/%s/users/%s/roles", domainId, userId)).execute().getList();
     }
-    
+
     /**
      * {@inheritDoc}
      */

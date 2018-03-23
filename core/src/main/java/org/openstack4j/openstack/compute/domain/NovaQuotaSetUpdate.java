@@ -1,10 +1,9 @@
 package org.openstack4j.openstack.compute.domain;
 
-import org.openstack4j.model.compute.QuotaSetUpdate;
-import org.openstack4j.model.compute.builder.QuotaSetUpdateBuilder;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import org.openstack4j.model.compute.QuotaSetUpdate;
+import org.openstack4j.model.compute.builder.QuotaSetUpdateBuilder;
 
 public class NovaQuotaSetUpdate implements QuotaSetUpdate {
 
@@ -18,7 +17,7 @@ public class NovaQuotaSetUpdate implements QuotaSetUpdate {
 
     @JsonProperty("injected_files")
     private Integer injectedFiles;
-    
+
     @JsonProperty
     private Integer ram;
 
@@ -43,53 +42,57 @@ public class NovaQuotaSetUpdate implements QuotaSetUpdate {
     @JsonProperty("key_pairs")
     private Integer keyPairs;
 
-    public NovaQuotaSetUpdate() {
-    	super();
-    }
-    
-    
-    
-    protected NovaQuotaSetUpdate(Integer metadataItems,
-				Integer injectedFileContentBytes, Integer injectedFiles,
-				Integer ram, Integer floatingIps, Integer instances,
-				Integer cores, Integer securityGroups,
-				Integer securityGroupRules, Integer injectedFilePathBytes,
-				Integer keyPairs) {
-			super();
-			this.metadataItems = metadataItems;
-			this.injectedFileContentBytes = injectedFileContentBytes;
-			this.injectedFiles = injectedFiles;
-			this.ram = ram;
-			this.floatingIps = floatingIps;
-			this.instances = instances;
-			this.cores = cores;
-			this.securityGroups = securityGroups;
-			this.securityGroupRules = securityGroupRules;
-			this.injectedFilePathBytes = injectedFilePathBytes;
-			this.keyPairs = keyPairs;
-		}
+    @JsonProperty("server_groups")
+    private Integer serverGroups;
 
-		@Override
+    @JsonProperty("server_group_members")
+    private Integer serverGroupMembers;
+
+    public NovaQuotaSetUpdate() {
+        super();
+    }
+
+    protected NovaQuotaSetUpdate(Integer metadataItems, Integer injectedFileContentBytes, Integer injectedFiles,
+            Integer ram, Integer floatingIps, Integer instances, Integer cores, Integer securityGroups,
+            Integer securityGroupRules, Integer injectedFilePathBytes, Integer keyPairs, Integer serverGroups,
+            Integer serverGroupMembers) {
+        super();
+        this.metadataItems = metadataItems;
+        this.injectedFileContentBytes = injectedFileContentBytes;
+        this.injectedFiles = injectedFiles;
+        this.ram = ram;
+        this.floatingIps = floatingIps;
+        this.instances = instances;
+        this.cores = cores;
+        this.securityGroups = securityGroups;
+        this.securityGroupRules = securityGroupRules;
+        this.injectedFilePathBytes = injectedFilePathBytes;
+        this.keyPairs = keyPairs;
+        this.serverGroups = serverGroups;
+        this.serverGroupMembers = serverGroupMembers;
+    }
+
+    @Override
     public QuotaSetUpdateBuilder toBuilder() {
         return new QuotaSetUpdateConcreteBuilder(this);
     }
-    
+
     public static QuotaSetUpdateBuilder builder() {
         return new QuotaSetUpdateConcreteBuilder();
     }
-    
+
     public static class QuotaSetUpdateConcreteBuilder implements QuotaSetUpdateBuilder {
 
         private NovaQuotaSetUpdate model;
-        
+
         public QuotaSetUpdateConcreteBuilder() {
             this.model = new NovaQuotaSetUpdate();
         }
-        
+
         public QuotaSetUpdateConcreteBuilder(QuotaSetUpdate model) {
             this.model = (NovaQuotaSetUpdate) model;
         }
-        
+
         @Override
         public QuotaSetUpdate build() {
             return model;
@@ -165,54 +168,62 @@ public class NovaQuotaSetUpdate implements QuotaSetUpdate {
             model.keyPairs = keyPairs;
             return this;
         }
+
+        @Override
+        public QuotaSetUpdateBuilder serverGroups(int serverGroups) {
+            model.serverGroups = serverGroups;
+            return this;
+        }
+
+        @Override
+        public QuotaSetUpdateBuilder serverGroupMembers(int serverGroupMembers) {
+            model.serverGroupMembers = serverGroupMembers;
+            return this;
+        }
     }
-    
+
     @JsonRootName("quota_set")
     public static class NovaQuotaSetUpdateTenant extends NovaQuotaSetUpdate {
 
-			private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-			public NovaQuotaSetUpdateTenant(Integer metadataItems,
-					Integer injectedFileContentBytes, Integer injectedFiles,
-					Integer ram, Integer floatingIps,
-					Integer instances, Integer cores,
-					Integer securityGroups, Integer securityGroupRules,
-					Integer injectedFilePathBytes, Integer keyPairs) {
-				super(metadataItems, injectedFileContentBytes, injectedFiles, ram,
-						floatingIps, instances, cores, securityGroups, securityGroupRules,
-						injectedFilePathBytes, keyPairs);
-			}
-    	
-			public static NovaQuotaSetUpdateTenant from(QuotaSetUpdate qs) {
-				NovaQuotaSetUpdate nqs = (NovaQuotaSetUpdate) qs;
-				  return new NovaQuotaSetUpdateTenant(nqs.metadataItems, nqs.injectedFileContentBytes, nqs.injectedFiles,
-				  						nqs.ram, nqs.floatingIps, nqs.instances, nqs.cores, nqs.securityGroups,
-				  						nqs.securityGroupRules, nqs.injectedFilePathBytes, nqs.keyPairs);
-			}
+        public NovaQuotaSetUpdateTenant(Integer metadataItems, Integer injectedFileContentBytes, Integer injectedFiles,
+                Integer ram, Integer floatingIps, Integer instances, Integer cores, Integer securityGroups,
+                Integer securityGroupRules, Integer injectedFilePathBytes, Integer keyPairs, Integer serverGroups,
+                Integer serverGroupMembers) {
+            super(metadataItems, injectedFileContentBytes, injectedFiles, ram, floatingIps, instances, cores,
+                    securityGroups, securityGroupRules, injectedFilePathBytes, keyPairs, serverGroups,
+                    serverGroupMembers);
+        }
+
+        public static NovaQuotaSetUpdateTenant from(QuotaSetUpdate qs) {
+            NovaQuotaSetUpdate nqs = (NovaQuotaSetUpdate) qs;
+            return new NovaQuotaSetUpdateTenant(nqs.metadataItems, nqs.injectedFileContentBytes, nqs.injectedFiles,
+                    nqs.ram, nqs.floatingIps, nqs.instances, nqs.cores, nqs.securityGroups, nqs.securityGroupRules,
+                    nqs.injectedFilePathBytes, nqs.keyPairs, nqs.serverGroups, nqs.serverGroupMembers);
+        }
     }
-    
+
     @JsonRootName("quota_class_set")
     public static class NovaQuotaSetUpdateClass extends NovaQuotaSetUpdate {
 
-			private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-			public NovaQuotaSetUpdateClass(Integer metadataItems,
-					Integer injectedFileContentBytes, Integer injectedFiles,
-					Integer ram, Integer floatingIps,
-					Integer instances, Integer cores,
-					Integer securityGroups, Integer securityGroupRules,
-					Integer injectedFilePathBytes, Integer keyPairs) {
-				super(metadataItems, injectedFileContentBytes, injectedFiles, ram,
-						floatingIps, instances, cores, securityGroups, securityGroupRules,
-						injectedFilePathBytes, keyPairs);
-			}
-    	
-			public static NovaQuotaSetUpdateClass from(QuotaSetUpdate qs) {
-				NovaQuotaSetUpdate nqs = (NovaQuotaSetUpdate) qs;
-				  return new NovaQuotaSetUpdateClass(nqs.metadataItems, nqs.injectedFileContentBytes, nqs.injectedFiles,
-				  						nqs.ram, nqs.floatingIps, nqs.instances, nqs.cores, nqs.securityGroups,
-				  						nqs.securityGroupRules, nqs.injectedFilePathBytes, nqs.keyPairs);
-			}
+        public NovaQuotaSetUpdateClass(Integer metadataItems, Integer injectedFileContentBytes, Integer injectedFiles,
+                Integer ram, Integer floatingIps, Integer instances, Integer cores, Integer securityGroups,
+                Integer securityGroupRules, Integer injectedFilePathBytes, Integer keyPairs, Integer serverGroups,
+                Integer serverGroupMembers) {
+            super(metadataItems, injectedFileContentBytes, injectedFiles, ram, floatingIps, instances, cores,
+                    securityGroups, securityGroupRules, injectedFilePathBytes, keyPairs, serverGroups,
+                    serverGroupMembers);
+        }
+
+        public static NovaQuotaSetUpdateClass from(QuotaSetUpdate qs) {
+            NovaQuotaSetUpdate nqs = (NovaQuotaSetUpdate) qs;
+            return new NovaQuotaSetUpdateClass(nqs.metadataItems, nqs.injectedFileContentBytes, nqs.injectedFiles,
+                    nqs.ram, nqs.floatingIps, nqs.instances, nqs.cores, nqs.securityGroups, nqs.securityGroupRules,
+                    nqs.injectedFilePathBytes, nqs.keyPairs, nqs.serverGroups, nqs.serverGroupMembers);
+        }
     }
-    
+
 }

@@ -1,16 +1,18 @@
-package org.openstack4j.api.identity.v3;
+/**
+ *
+ */
+package org.openstack4j.api.identity;
 
+import org.openstack4j.api.identity.v3.*;
 import org.openstack4j.common.RestService;
 import org.openstack4j.model.common.Extension;
-import org.openstack4j.model.identity.v3.Project;
 
 import java.util.List;
 
 /**
- * Identity v3 Service Operations API
+ * @author Christian Brinker, evoila.
  */
 public interface IdentityService extends RestService {
-
     /**
      * Credential Service API
      *
@@ -19,25 +21,11 @@ public interface IdentityService extends RestService {
     CredentialService credentials();
 
     /**
-     * Domain Service API
-     *
-     * @return the domain service
-     */
-    DomainService domains();
-
-    /**
      * Projects Service API
      *
      * @return the project service
      */
     ProjectService projects();
-
-    /**
-     * List projects currently available with the clients scope
-     *
-     * @return List of projects
-     */
-    List<? extends Project> listAuthProjects();
 
     /**
      * Users Service API
@@ -101,5 +89,4 @@ public interface IdentityService extends RestService {
      * @return List of extensions
      */
     List<? extends Extension> listExtensions();
-
 }

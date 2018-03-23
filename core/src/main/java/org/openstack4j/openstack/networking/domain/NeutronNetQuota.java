@@ -1,20 +1,19 @@
 package org.openstack4j.openstack.networking.domain;
 
-import static com.google.common.base.MoreObjects.toStringHelper;
-
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import org.openstack4j.model.network.NetQuota;
 import org.openstack4j.model.network.builder.NetQuotaBuilder;
 import org.openstack4j.openstack.common.ListResult;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
+import java.util.List;
+
+import static com.google.common.base.Objects.toStringHelper;
 
 /**
  * Network quotas that are bound to a Tenant
- *
+ * 
  * @author Jeremy Unruh
  */
 @JsonRootName("quota")
@@ -24,6 +23,8 @@ public class NeutronNetQuota implements NetQuota {
 
     @JsonProperty
     private int subnet;
+    @JsonProperty
+    private int subnetpool;
     @JsonProperty
     private int router;
     @JsonProperty
@@ -36,6 +37,16 @@ public class NeutronNetQuota implements NetQuota {
     private int securityGroup;
     @JsonProperty("security_group_rule")
     private int securityGroupRule;
+    @JsonProperty
+    private Integer l7policy;
+    @JsonProperty
+    private Integer listener;
+    @JsonProperty
+    private Integer loadbalancer;
+    @JsonProperty
+    private Integer healthmonitor;
+    @JsonProperty
+    private Integer pool;
 
     public static NetQuotaBuilder builder() {
         return new NetQuotaConcreteBuilder();
@@ -49,6 +60,11 @@ public class NeutronNetQuota implements NetQuota {
     @Override
     public int getSubnet() {
         return subnet;
+    }
+
+    @Override
+    public int getSubnetpool() {
+        return subnetpool;
     }
 
     @Override
@@ -83,11 +99,36 @@ public class NeutronNetQuota implements NetQuota {
     }
 
     @Override
+    public Integer getL7policy() {
+        return l7policy;
+    }
+
+    @Override
+    public Integer getListener() {
+        return listener;
+    }
+
+    @Override
+    public Integer getLoadbalancer() {
+        return loadbalancer;
+    }
+
+    @Override
+    public Integer getHealthmonitor() {
+        return healthmonitor;
+    }
+
+    @Override
+    public Integer getPool() {
+        return pool;
+    }
+
+    @Override
     public String toString() {
-        return toStringHelper(this)
-                .add("subnet", subnet).add("router", router).add("port", port)
-                .add("network", network).add("floatingIp", floatingIp)
-                .toString();
+        return toStringHelper(this).add("subnet", subnet).add("subnetpool", subnetpool).add("router", router)
+                .add("port", port).add("network", network).add("floatingIp", floatingIp).add("l7policy", l7policy)
+                .add("listener", listener).add("loadbalancer", loadbalancer).add("healthmonitor", healthmonitor)
+                .add("pool", pool).toString();
     }
 
     public static class NetQuotaConcreteBuilder implements NetQuotaBuilder {
@@ -116,6 +157,12 @@ public class NeutronNetQuota implements NetQuota {
         @Override
         public NetQuotaBuilder subnet(int subnet) {
             model.subnet = subnet;
+            return this;
+        }
+
+        @Override
+        public NetQuotaBuilder subnetpool(int subnetpool) {
+            model.subnetpool = subnetpool;
             return this;
         }
 
@@ -154,19 +201,49 @@ public class NeutronNetQuota implements NetQuota {
             model.securityGroupRule = securityGroupRule;
             return this;
         }
+
+        @Override
+        public NetQuotaBuilder l7policy(int l7policy) {
+            model.l7policy = l7policy;
+            return this;
+        }
+
+        @Override
+        public NetQuotaBuilder listener(int listener) {
+            model.listener = listener;
+            return this;
+        }
+
+        @Override
+        public NetQuotaBuilder loadbalancer(int loadbalancer) {
+            model.loadbalancer = loadbalancer;
+            return this;
+        }
+
+        @Override
+        public NetQuotaBuilder healthmonitor(int healthmonitor) {
+            model.healthmonitor = healthmonitor;
+            return this;
+        }
+
+        @Override
+        public NetQuotaBuilder pool(int pool) {
+            model.pool = pool;
+            return this;
+        }
     }
 
     public static class NeutronNetQuotas extends ListResult<NeutronNetQuota> {
 
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-		@JsonProperty("quotas")
-    	private List<NeutronNetQuota> quotas;
+        @JsonProperty("quotas")
+        private List<NeutronNetQuota> quotas;
 
-		@Override
-		protected List<NeutronNetQuota> value() {
-			return quotas;
-		}
+        @Override
+        protected List<NeutronNetQuota> value() {
+            return quotas;
+        }
     }
 
 }

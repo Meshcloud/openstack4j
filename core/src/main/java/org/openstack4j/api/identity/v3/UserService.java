@@ -117,6 +117,10 @@ public interface UserService extends RestService {
 	 * @return list of role assignments for specified user and domain
 	 */
 	List<? extends Role> listDomainUserRoles(String userId, String domainId);
+    /**
+     * For getting access to the list of users in a specific domain, a filter by domain_id must be applied
+     */
+    List<? extends User> listByDomain(String domainId);
 
 	/**
 	 * lists users.
@@ -126,6 +130,7 @@ public interface UserService extends RestService {
 	List<? extends User> list();
 	
 	/**
+    /**
      * change password for user.
      *
      * @param userId the user identifier

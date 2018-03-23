@@ -1,6 +1,7 @@
 package org.openstack4j.openstack.telemetry.internal;
 
 import org.openstack4j.api.telemetry.EventService;
+import org.openstack4j.api.types.ServiceType;
 import org.openstack4j.model.telemetry.Event;
 import org.openstack4j.model.telemetry.EventCriteria;
 import org.openstack4j.model.telemetry.Trait;
@@ -24,6 +25,13 @@ public class EventServiceImpl extends BaseTelemetryServices implements EventServ
     private static final String OPER = "q.op";
     private static final String VALUE = "q.value";
     private static final String LIMIT = "limit";
+
+    public EventServiceImpl() {
+    }
+
+    public EventServiceImpl(ServiceType service) {
+        super(service);
+    }
 
     /**
      * {@inheritDoc}

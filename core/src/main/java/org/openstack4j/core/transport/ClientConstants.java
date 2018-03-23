@@ -7,6 +7,7 @@ package org.openstack4j.core.transport;
  */
 public final class ClientConstants {
 
+    public static final String HEADER_AUTHORIZATION = "Authorization";
     public static final String HEADER_X_AUTH_TOKEN = "X-Auth-Token";
     public static final String HEADER_X_SUBJECT_TOKEN = "X-Subject-Token";
     public static final String HEADER_X_PROJECT_ID = "X-Project-Id";
@@ -38,6 +39,7 @@ public final class ClientConstants {
 
     // Paths
     public static final String URI_SEP = "/";
+    public static final String PATH_FEDERATION = "/OS-FEDERATION";
     public static final String PATH_PROJECTS = "/projects";
     public static final String PATH_ROLES = "/roles";
     public static final String PATH_USERS = "/users";

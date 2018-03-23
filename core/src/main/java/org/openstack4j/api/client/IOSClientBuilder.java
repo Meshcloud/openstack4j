@@ -206,6 +206,30 @@ public interface IOSClientBuilder<R, T extends IOSClientBuilder<R, T>> {
          */
         V3 scopeToDomain(Identifier domain);
 
+        /**
+         * Force credentials reset
+         *
+         * @param forceReset
+         * @return self for method chaining
+         */
+        V3 forceCredentials(boolean forceReset);
+    }
+
+    /**
+     * OpenStack4j Client builder which authenticates against version V3
+     */
+    public interface V3Federation extends IOSClientBuilder<OSClientV3, V3Federation> {
+
+        /**
+         * The authentication credentials and default scoped domain
+         *
+         * @param userName the user name to authenticate with
+         * @param password the password to authenticate with
+         * @param domain   the domain if using "default scoped"
+         * @return self for method chaining
+         */
+        V3Federation credentials(String idpId, String protocolId, String authToken);
+
     }
 
 }

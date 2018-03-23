@@ -13,6 +13,7 @@ public enum ServiceType {
 	EC2("ec2", "ec2"),
 	TELEMETRY("ceilometer", "metering"),
 	TELEMETRY_AODH("aodh", "alarming"),
+	PANKO("panko", "event"),
 	ORCHESTRATION("heat", "orchestration"),
 	CLUSTERING("senlin", "clustering"),
 	SAHARA("sahara", "data_processing"),

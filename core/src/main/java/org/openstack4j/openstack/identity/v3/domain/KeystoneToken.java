@@ -1,23 +1,28 @@
+/**
+ *
+ */
 package org.openstack4j.openstack.identity.v3.domain;
-
-import static org.openstack4j.openstack.identity.functions.ServiceFunctions.TYPE_WITHOUT_VERSION;
-
-import java.util.Date;
-import java.util.List;
-
-import org.openstack4j.model.identity.AuthStore;
-import org.openstack4j.model.identity.AuthVersion;
-import org.openstack4j.model.identity.v3.Service;
-import org.openstack4j.model.identity.v3.Token;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.TreeMultimap;
+import org.openstack4j.model.identity.AuthStore;
+import org.openstack4j.model.identity.AuthVersion;
+import org.openstack4j.model.identity.v3.Service;
+import org.openstack4j.model.identity.v3.Token;
 
+import java.util.Date;
+import java.util.List;
+
+import static org.openstack4j.openstack.identity.functions.ServiceFunctions.TYPE_WITHOUT_VERSION;
+
+/**
+ * @author Jeremy Unruh, Johannes Hiemer.
+ */
 @JsonRootName("token")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KeystoneToken implements Token {
@@ -56,7 +61,7 @@ public class KeystoneToken implements Token {
      */
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
+        return Objects.toStringHelper(this).omitNullValues()
                 .add("id", id)
                 .add("expires", expires)
                 .add("issued", issued)
@@ -169,7 +174,7 @@ public class KeystoneToken implements Token {
     @JsonIgnore
     public SortedSetMultimap<String, Service> getAggregatedCatalog() {
         if (aggregatedCatalog == null) {
-            synchronized(this) {
+            synchronized (this) {
                 if (aggregatedCatalog == null) {
                     aggregatedCatalog = TreeMultimap.create();
                     for (Service sc : catalog) {
@@ -199,4 +204,5 @@ public class KeystoneToken implements Token {
         return String.format("%s:%s", endpoint, uniq);
 
     }
+
 }

@@ -65,4 +65,14 @@ public interface QuotaSetUpdateBuilder extends Builder<QuotaSetUpdateBuilder, Qu
      */
     QuotaSetUpdateBuilder keyPairs(int keyPairs);
 
+    /**
+     * Number of server groups permitted
+     */
+    QuotaSetUpdateBuilder serverGroups(int serverGroups);
+
+    /**
+     * Number of members per server group permitted
+     */
+    QuotaSetUpdateBuilder serverGroupMembers(int serverGroupMembers);
+
 }

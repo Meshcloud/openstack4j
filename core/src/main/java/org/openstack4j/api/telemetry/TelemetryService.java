@@ -28,7 +28,7 @@ public interface TelemetryService extends RestService {
      *
      * @return the Event Service API
      */
-    EventService events();
+    EventService events(boolean usePanko);
 
     /**
      * Access to Samples API

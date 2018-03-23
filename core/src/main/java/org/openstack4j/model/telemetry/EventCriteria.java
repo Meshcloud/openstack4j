@@ -17,18 +17,32 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class EventCriteria {
 
     public enum Oper {
-        /** Less Than : < */
+        /**
+         * Empty : <
+         */
+        EMPTY("empty"),
+        /**
+         * Less Than : <
+         */
         LT("lt"),
-        /** Greater Than : > */
+        /**
+         * Greater Than : >
+         */
         GT("gt"),
-        /** Less Than Equals : <= */
+        /**
+         * Less Than Equals : <=
+         */
         LTE("le"),
-        /** Greater Than Equals : >= */
+        /**
+         * Greater Than Equals : >=
+         */
         GTE("ge"),
-        /** Equals : = */
-        EQUALS("eq")
-        ;
+        /**
+         * Equals : =
+         */
+        EQUALS("eq");
         private final String queryValue;
+
         Oper(String queryValue) {
             this.queryValue = queryValue;
         }

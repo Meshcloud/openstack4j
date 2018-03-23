@@ -68,6 +68,11 @@ public class GroupServiceImpl extends BaseOpenStackService implements GroupServi
     }
 
     @Override
+    public List<? extends Group> listByDomain(String domainId) {
+        return get(Groups.class, uri("%s?domain_id=%s", PATH_GROUPS, domainId)).execute().getList();
+    }
+
+    @Override
     public List<? extends User> listGroupUsers(String groupId) {
         checkNotNull(groupId);
         return get(Users.class, uri("/groups/%s/users", groupId)).execute().getList();

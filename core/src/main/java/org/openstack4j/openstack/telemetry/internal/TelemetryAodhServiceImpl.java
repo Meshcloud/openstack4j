@@ -29,10 +29,13 @@ public class TelemetryAodhServiceImpl implements TelemetryAodhService {
      * {@inheritDoc}
      */
     @Override
-    public EventService events() {
+    public EventService events(boolean usePanko) {
+        if(usePanko) {
+            return Apis.get(PankoEventService.class);
+        }
+
         return Apis.get(EventService.class);
     }
-
     /**
      * {@inheritDoc}
      */

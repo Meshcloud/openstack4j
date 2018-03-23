@@ -1,7 +1,5 @@
 package org.openstack4j.openstack.client;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import org.openstack4j.api.OSClient.OSClientV2;
 import org.openstack4j.api.OSClient.OSClientV3;
 import org.openstack4j.api.client.CloudProvider;
@@ -10,19 +8,21 @@ import org.openstack4j.api.exceptions.AuthenticationException;
 import org.openstack4j.api.types.Facing;
 import org.openstack4j.core.transport.Config;
 import org.openstack4j.model.common.Identifier;
-import org.openstack4j.openstack.common.Auth;
 import org.openstack4j.openstack.identity.v2.domain.Credentials;
 import org.openstack4j.openstack.identity.v2.domain.RaxApiKeyCredentials;
 import org.openstack4j.openstack.identity.v2.domain.TokenAuth;
+import org.openstack4j.openstack.identity.v3.domain.Auth;
+import org.openstack4j.openstack.identity.v3.domain.FederatedAuth;
 import org.openstack4j.openstack.identity.v3.domain.KeystoneAuth;
 import org.openstack4j.openstack.identity.v3.domain.KeystoneAuth.AuthScope;
 import org.openstack4j.openstack.internal.OSAuthenticator;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Builder definitions for creating a Client
  *
- * @author Jeremy Unruh
- *
+ * @author Jeremy Unruh, Johannes Hiemer.
  */
 public abstract class OSClientBuilder<R, T extends IOSClientBuilder<R, T>> implements IOSClientBuilder<R, T> {
 
@@ -112,10 +112,10 @@ public abstract class OSClientBuilder<R, T extends IOSClientBuilder<R, T>> imple
             }
 
             if (raxApiKey) {
-                return (OSClientV2) OSAuthenticator.invoke( new RaxApiKeyCredentials(user, password), endpoint, perspective, config, provider);
+                return (OSClientV2) OSAuthenticator.invoke(new RaxApiKeyCredentials(user, password), endpoint, perspective, config, provider);
             }
 
-            return (OSClientV2) OSAuthenticator.invoke( new Credentials(user, password, tenantName, tenantId), endpoint, perspective, config, provider);
+            return (OSClientV2) OSAuthenticator.invoke(new Credentials(user, password, tenantName, tenantId), endpoint, perspective, config, provider);
         }
 
         @Override
@@ -123,7 +123,7 @@ public abstract class OSClientBuilder<R, T extends IOSClientBuilder<R, T>> imple
             this.tokenId = tokenId;
             return this;
         }
-        
+
     }
 
     public static class ClientV3 extends OSClientBuilder<OSClientV3, IOSClientBuilder.V3> implements IOSClientBuilder.V3 {
@@ -131,6 +131,7 @@ public abstract class OSClientBuilder<R, T extends IOSClientBuilder<R, T>> imple
         Identifier domain;
         AuthScope scope;
         String tokenId;
+        boolean forceCredentials;
 
         @Override
         public ClientV3 domainName(String domainName) {
@@ -161,7 +162,7 @@ public abstract class OSClientBuilder<R, T extends IOSClientBuilder<R, T>> imple
         @Override
         public OSClientV3 authenticate() throws AuthenticationException {
             // token based authentication
-            if (tokenId != null && tokenId.length() > 0)
+            if (tokenId != null && tokenId.length() > 0 && !forceCredentials)
                 if (scope != null) {
                     return (OSClientV3) OSAuthenticator.invoke(new KeystoneAuth(tokenId, scope), endpoint, perspective, config, provider);
                 } else {
@@ -192,5 +193,33 @@ public abstract class OSClientBuilder<R, T extends IOSClientBuilder<R, T>> imple
             return this;
         }
 
+        @Override
+        public ClientV3 forceCredentials(boolean forceReset) {
+            this.forceCredentials = forceReset;
+            return this;
+        }
     }
+
+    public static class ClientV3Federation extends OSClientBuilder<OSClientV3, IOSClientBuilder.V3Federation> implements IOSClientBuilder.V3Federation {
+
+        String idpId;
+        String protocolId;
+        String authToken;
+
+        @Override
+        public ClientV3Federation credentials(String idpId, String protocolId, String authToken) {
+            this.idpId = idpId;
+            this.protocolId = protocolId;
+            this.authToken = authToken;
+            return this;
+        }
+
+        @Override
+        public OSClientV3 authenticate() throws AuthenticationException {
+            return (OSClientV3) OSAuthenticator.invoke(new FederatedAuth(idpId, protocolId, authToken),
+                    endpoint, perspective, config, provider);
+        }
+
+    }
+
 }
